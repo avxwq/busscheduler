@@ -11,7 +11,7 @@ export default function HomePage() {
   useEffect(() => {
     const fetchRoutes = async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/routes'); // Endpoint API
+        const response = await fetch('http://localhost:5000/api/routes'); // Endpoint API
         if (!response.ok) {
           throw new Error('Nie udało się pobrać tras z serwera.');
         }

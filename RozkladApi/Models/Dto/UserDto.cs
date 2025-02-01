@@ -1,5 +1,3 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
 namespace RozkladApi.Models.Dto
 {
     public class UserDto 

@@ -1,45 +1,74 @@
-﻿namespace RozkladApi.Models
-{
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-    public class BusStop
-    {
-        [Key]
-        public int Id { get; set; }
-        
-        [Required]
-        public string Name { get; set; }
-    }
+using System.ComponentModel.DataAnnotations.Schema;
+namespace RozkladApi.Models;
 
-    public class BusLine
-    {
-        [Key]
-        public int Id { get; set; }
-        
-        [Required]
-        public string LineNumber { get; set; }
-        public string Description { get; set; }
-        
-        public List<BusLineStop> LineStops { get; set; }
-    }
+public class BusLine
+{
+    [Key]
+    public int Id { get; set; }
+    
+    [Required]
+    public string Number { get; set; }
+    
+    public List<int> Stops { get; set; } = new();
+}
 
-    public class BusLineStop
-    {
-        [Key]
-        public int Id { get; set; }
-        
-        public int BusLineId { get; set; }
-        public BusLine BusLine { get; set; }
+public class Route
+{
+    [Key]
+    public string Id { get; set; }
+    
+    [Required]
+    public string Number { get; set; }
+    
+    [Required]
+    public string StartPoint { get; set; }
+    
+    [Required]
+    public string EndPoint { get; set; }
+    
+    public List<Stop> Stops { get; set; } = new();
+}
 
-        public int BusDepartureStopId { get; set; }
-        public BusStop BusDepartureStop { get; set; }
-        
-        public int BusStopId { get; set; }
-        public BusStop BusStop { get; set; }
-        
-        [Required]
-        public TimeSpan TravelTime { get; set; }
-        
-    }
+public class Schedule
+{
+    [Key]
+    public int Id { get; set; }
+    
+    [ForeignKey("BusLine")]
+    public int LineId { get; set; }
+    
+    [ForeignKey("Stop")]
+    public int StopId { get; set; }
+    
+    public List<string> Weekdays { get; set; } = new();
+    public List<string> Saturdays { get; set; } = new();
+    public List<string> Sundays { get; set; } = new();
+}
+
+public class Stop
+{
+    [Key]
+    public int Id { get; set; }
+    
+    [Required]
+    public string Name { get; set; }
+    
+    [Required]
+    public string Location { get; set; }
+    
+    [Required]
+    public string Zone { get; set; }
+    
+    public Departures Departures { get; set; } = new();
+}
+
+public class Departures
+{
+    public string Id {get; set;}
+    public List<string> Weekdays { get; set; } = new();
+    public List<string> Weekends { get; set; } = new();
+    public List<string> Holidays { get; set; } = new();
 }

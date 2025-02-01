@@ -2407,11 +2407,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\code\\Current\\rozklad\\RozkladApi\\RozkladApi.csproj",
+      "projectUniqueName": "C:\\code\\Current\\busscheduler\\RozkladApi\\RozkladApi.csproj",
       "projectName": "RozkladApi",
-      "projectPath": "C:\\code\\Current\\rozklad\\RozkladApi\\RozkladApi.csproj",
+      "projectPath": "C:\\code\\Current\\busscheduler\\RozkladApi\\RozkladApi.csproj",
       "packagesPath": "C:\\Users\\skowa\\.nuget\\packages\\",
-      "outputPath": "C:\\code\\Current\\rozklad\\RozkladApi\\obj\\",
+      "outputPath": "C:\\code\\Current\\busscheduler\\RozkladApi\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
