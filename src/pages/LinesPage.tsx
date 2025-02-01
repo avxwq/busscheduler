@@ -18,13 +18,13 @@ const LinesPage: React.FC = () => {
   // Pobieranie przystanków i tras z bazy danych
   useEffect(() => {
     const fetchStops = async () => {
-      const response = await fetch("/api/stops");
+      const response = await fetch("http://localhost:5000/api/stops");
       const data: Stop[] = await response.json();
       setStops(data);
     };
 
     const fetchRoutes = async () => {
-      const response = await fetch("/api/routes");
+      const response = await fetch("http://localhost:5000/api/routes");
       const data: Route[] = await response.json();
       setRoutes(data);
     };
@@ -36,7 +36,7 @@ const LinesPage: React.FC = () => {
   // Zapis nowej linii lub edytowanej linii do bazy danych
   const saveRoute = async (route: Route) => {
     const method = route.id ? "PUT" : "POST";
-    const endpoint = route.id ? `/api/routes/${route.id}` : "/api/routes";
+    const endpoint = route.id ? `http://localhost:5000/api/routes/${route.id}` : "http://localhost:5000/api/routes";
 
     const response = await fetch(endpoint, {
       method,
@@ -64,7 +64,7 @@ const LinesPage: React.FC = () => {
 
   // Usuwanie linii z bazy danych
   const deleteRoute = async (routeId: string) => {
-    const response = await fetch(`/api/routes/${routeId}`, {
+    const response = await fetch(`http://localhost:5000/api/routes/${routeId}`, {
       method: "DELETE",
     });
 

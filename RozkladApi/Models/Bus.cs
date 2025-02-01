@@ -46,6 +46,8 @@ public class Schedule
     public List<string> Weekdays { get; set; } = new();
     public List<string> Saturdays { get; set; } = new();
     public List<string> Sundays { get; set; } = new();
+    public BusLine BusLine { get; set; }  // Navigation property to BusLine
+    public Stop Stop { get; set; } 
 }
 
 public class Stop

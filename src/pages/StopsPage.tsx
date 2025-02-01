@@ -21,7 +21,7 @@ const StopsPage: React.FC = () => {
     // Pobieranie listy przystanków z bazy danych przy pierwszym renderze
     const fetchStops = async () => {
       try {
-        const response = await fetch("/api/stops"); // Endpoint do pobierania przystanków
+        const response = await fetch("http://localhost:5000/api/stops"); // Endpoint do pobierania przystanków
         if (!response.ok) {
           throw new Error(`Błąd HTTP: ${response.status}`);
         }
@@ -104,7 +104,7 @@ const StopsPage: React.FC = () => {
       try {
         if (formData.id === 0) {
           // Dodawanie nowego przystanku
-          const response = await fetch("/api/stops", {
+          const response = await fetch("http://localhost:5000/api/stops", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(formData),
@@ -116,7 +116,7 @@ const StopsPage: React.FC = () => {
           setStops([...stops, newStop]);
         } else {
           // Aktualizowanie istniejącego przystanku
-          await fetch(`/api/stops/${formData.id}`, {
+          await fetch(`http://localhost:5000/api/stops/${formData.id}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(formData),
@@ -149,7 +149,7 @@ const StopsPage: React.FC = () => {
 
   const handleDelete = async (id: number) => {
     try {
-      const response = await fetch(`/api/stops/${id}`, { method: "DELETE" });
+      const response = await fetch(`http://localhost:5000/api/stops/${id}`, { method: "DELETE" });
       if (!response.ok) {
         throw new Error(`Błąd HTTP: ${response.status}`);
       }

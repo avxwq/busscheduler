@@ -290,3 +290,4 @@ C:\code\Current\busscheduler\RozkladApi\obj\Debug\net8.0\refint\RozkladApi.dll
 C:\code\Current\busscheduler\RozkladApi\obj\Debug\net8.0\RozkladApi.pdb
 C:\code\Current\busscheduler\RozkladApi\obj\Debug\net8.0\RozkladApi.genruntimeconfig.cache
 C:\code\Current\busscheduler\RozkladApi\obj\Debug\net8.0\ref\RozkladApi.dll
+C:\code\Current\busscheduler\RozkladApi\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
