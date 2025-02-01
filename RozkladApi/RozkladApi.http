@@ -1,0 +1,6 @@
+@RozkladApi_HostAddress = http://localhost:5239
+
+GET {{RozkladApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
