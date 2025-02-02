@@ -3,12 +3,28 @@
   "WorkspaceRootPath": "C:\\code\\Current\\busscheduler\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\code\\Current\\busscheduler\\RozkladApi\\Migrations\\20250201115326_test422.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:RozkladApi\\Migrations\\20250201115326_test422.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{8CD93796-C724-0690-5D5C-795BE028B852}|RozkladApi\\RozkladApi.csproj|c:\\code\\current\\busscheduler\\rozkladapi\\controllers\\stopscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8CD93796-C724-0690-5D5C-795BE028B852}|RozkladApi\\RozkladApi.csproj|solutionrelative:rozkladapi\\controllers\\stopscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{8CD93796-C724-0690-5D5C-795BE028B852}|RozkladApi\\RozkladApi.csproj|c:\\code\\current\\busscheduler\\rozkladapi\\controllers\\routecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{8CD93796-C724-0690-5D5C-795BE028B852}|RozkladApi\\RozkladApi.csproj|solutionrelative:rozkladapi\\controllers\\routecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{8CD93796-C724-0690-5D5C-795BE028B852}|RozkladApi\\RozkladApi.csproj|c:\\code\\current\\busscheduler\\rozkladapi\\models\\databasecontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8CD93796-C724-0690-5D5C-795BE028B852}|RozkladApi\\RozkladApi.csproj|solutionrelative:rozkladapi\\models\\databasecontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8CD93796-C724-0690-5D5C-795BE028B852}|RozkladApi\\RozkladApi.csproj|c:\\code\\current\\busscheduler\\rozkladapi\\models\\bus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8CD93796-C724-0690-5D5C-795BE028B852}|RozkladApi\\RozkladApi.csproj|solutionrelative:rozkladapi\\models\\bus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\code\\Current\\busscheduler\\RozkladApi\\Migrations\\20250202161743_hello.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:RozkladApi\\Migrations\\20250202161743_hello.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\code\\Current\\busscheduler\\RozkladApi\\Migrations\\20250202161348_fixfixfix1234.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:RozkladApi\\Migrations\\20250202161348_fixfixfix1234.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\code\\Current\\busscheduler\\RozkladApi\\Migrations\\20250202160841_fixfixfix.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:RozkladApi\\Migrations\\20250202160841_fixfixfix.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,7 +34,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 9,
+          "SelectedChildIndex": 13,
           "Children": [
             {
               "$type": "Bookmark",
@@ -58,28 +74,80 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "20250201115326_test422.cs",
-              "DocumentMoniker": "C:\\code\\Current\\busscheduler\\RozkladApi\\Migrations\\20250201115326_test422.cs",
-              "RelativeDocumentMoniker": "RozkladApi\\Migrations\\20250201115326_test422.cs",
-              "ToolTip": "C:\\code\\Current\\busscheduler\\RozkladApi\\Migrations\\20250201115326_test422.cs",
-              "RelativeToolTip": "RozkladApi\\Migrations\\20250201115326_test422.cs",
+              "DocumentIndex": 3,
+              "Title": "20250202161743_hello.cs",
+              "DocumentMoniker": "C:\\code\\Current\\busscheduler\\RozkladApi\\Migrations\\20250202161743_hello.cs",
+              "RelativeDocumentMoniker": "RozkladApi\\Migrations\\20250202161743_hello.cs",
+              "ToolTip": "C:\\code\\Current\\busscheduler\\RozkladApi\\Migrations\\20250202161743_hello.cs",
+              "RelativeToolTip": "RozkladApi\\Migrations\\20250202161743_hello.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-01T11:53:26.629Z",
+              "WhenOpened": "2025-02-02T16:17:43.18Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "20250202161348_fixfixfix1234.cs",
+              "DocumentMoniker": "C:\\code\\Current\\busscheduler\\RozkladApi\\Migrations\\20250202161348_fixfixfix1234.cs",
+              "RelativeDocumentMoniker": "RozkladApi\\Migrations\\20250202161348_fixfixfix1234.cs",
+              "ToolTip": "C:\\code\\Current\\busscheduler\\RozkladApi\\Migrations\\20250202161348_fixfixfix1234.cs",
+              "RelativeToolTip": "RozkladApi\\Migrations\\20250202161348_fixfixfix1234.cs",
+              "ViewState": "AgIAACgAAAAAAAAAAAAgwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-02T16:13:48.191Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Bus.cs",
+              "DocumentMoniker": "C:\\code\\Current\\busscheduler\\RozkladApi\\Models\\Bus.cs",
+              "RelativeDocumentMoniker": "RozkladApi\\Models\\Bus.cs",
+              "ToolTip": "C:\\code\\Current\\busscheduler\\RozkladApi\\Models\\Bus.cs",
+              "RelativeToolTip": "RozkladApi\\Models\\Bus.cs",
+              "ViewState": "AgIAAD0AAAAAAAAAAIA0wEsAAAAxAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-02T16:11:51.511Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "RouteController.cs",
-              "DocumentMoniker": "C:\\code\\Current\\busscheduler\\RozkladApi\\Controllers\\RouteController.cs",
-              "RelativeDocumentMoniker": "RozkladApi\\Controllers\\RouteController.cs",
-              "ToolTip": "C:\\code\\Current\\busscheduler\\RozkladApi\\Controllers\\RouteController.cs",
-              "RelativeToolTip": "RozkladApi\\Controllers\\RouteController.cs",
-              "ViewState": "AgIAAD8AAAAAAAAAAAAowBEAAAAQAAAAAAAAAA==",
+              "Title": "DatabaseContext.cs",
+              "DocumentMoniker": "C:\\code\\Current\\busscheduler\\RozkladApi\\Models\\DatabaseContext.cs",
+              "RelativeDocumentMoniker": "RozkladApi\\Models\\DatabaseContext.cs",
+              "ToolTip": "C:\\code\\Current\\busscheduler\\RozkladApi\\Models\\DatabaseContext.cs",
+              "RelativeToolTip": "RozkladApi\\Models\\DatabaseContext.cs",
+              "ViewState": "AgIAACkAAAAAAAAAAAAawD8AAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-01T11:18:49.117Z",
+              "WhenOpened": "2025-02-02T16:09:36.858Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "StopsController.cs",
+              "DocumentMoniker": "C:\\code\\Current\\busscheduler\\RozkladApi\\Controllers\\StopsController.cs",
+              "RelativeDocumentMoniker": "RozkladApi\\Controllers\\StopsController.cs",
+              "ToolTip": "C:\\code\\Current\\busscheduler\\RozkladApi\\Controllers\\StopsController.cs",
+              "RelativeToolTip": "RozkladApi\\Controllers\\StopsController.cs",
+              "ViewState": "AgIAAIMAAAAAAAAAAAAawJsAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-02T16:08:55.293Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "20250202160841_fixfixfix.cs",
+              "DocumentMoniker": "C:\\code\\Current\\busscheduler\\RozkladApi\\Migrations\\20250202160841_fixfixfix.cs",
+              "RelativeDocumentMoniker": "RozkladApi\\Migrations\\20250202160841_fixfixfix.cs",
+              "ToolTip": "C:\\code\\Current\\busscheduler\\RozkladApi\\Migrations\\20250202160841_fixfixfix.cs",
+              "RelativeToolTip": "RozkladApi\\Migrations\\20250202160841_fixfixfix.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-02T16:08:42.117Z",
               "EditorCaption": ""
             }
           ]

@@ -227,7 +227,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[RozkladApi.Models.Stop, RozkladApi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[StopDto, RozkladApi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -246,14 +246,14 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "stop",
-        "Type": "RozkladApi.Models.Stop",
+        "Name": "stopDto",
+        "Type": "StopDto",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "RozkladApi.Models.Stop",
+        "Type": "StopDto",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -279,7 +279,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "RozkladApi.Models.Stop",
+        "Type": "StopDto",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -303,8 +303,8 @@
         "IsRequired": true
       },
       {
-        "Name": "stop",
-        "Type": "RozkladApi.Models.Stop",
+        "Name": "stopDto",
+        "Type": "StopDto",
         "IsRequired": true
       }
     ],

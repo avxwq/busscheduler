@@ -11,8 +11,8 @@ using RozkladApi.Models;
 namespace RozkladApi.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20250201115326_test422")]
-    partial class test422
+    [Migration("20250202161743_hello")]
+    partial class hello
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -62,8 +62,9 @@ namespace RozkladApi.Migrations
 
             modelBuilder.Entity("RozkladApi.Models.Departures", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("Id")
+                        .HasMaxLength(50)
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Holidays")
                         .IsRequired()
@@ -143,10 +144,6 @@ namespace RozkladApi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("DeparturesId")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("Location")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -161,8 +158,6 @@ namespace RozkladApi.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("DeparturesId");
 
                     b.ToTable("Stops");
                 });
@@ -212,6 +207,15 @@ namespace RozkladApi.Migrations
                         .HasForeignKey("UserId");
                 });
 
+            modelBuilder.Entity("RozkladApi.Models.Departures", b =>
+                {
+                    b.HasOne("RozkladApi.Models.Stop", null)
+                        .WithOne("Departures")
+                        .HasForeignKey("RozkladApi.Models.Departures", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("RozkladApi.Models.Schedule", b =>
                 {
                     b.HasOne("RozkladApi.Models.BusLine", "BusLine")
@@ -233,13 +237,8 @@ namespace RozkladApi.Migrations
 
             modelBuilder.Entity("RozkladApi.Models.Stop", b =>
                 {
-                    b.HasOne("RozkladApi.Models.Departures", "Departures")
-                        .WithMany()
-                        .HasForeignKey("DeparturesId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                    b.Navigation("Departures")
                         .IsRequired();
-
-                    b.Navigation("Departures");
                 });
 
             modelBuilder.Entity("User", b =>

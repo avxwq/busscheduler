@@ -100,9 +100,10 @@ const StopsPage: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (validateForm()) {
+    if (!validateForm()) {
       try {
         if (formData.id === 0) {
+          console.log("hello");
           // Dodawanie nowego przystanku
           const response = await fetch("http://localhost:5000/api/stops", {
             method: "POST",
@@ -345,5 +346,3 @@ const StopsPage: React.FC = () => {
 };
 
 export default StopsPage;
-
-

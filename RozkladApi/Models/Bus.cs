@@ -69,7 +69,8 @@ public class Stop
 
 public class Departures
 {
-    public string Id {get; set;}
+    [Key]
+    public int Id {get; set;}
     public List<string> Weekdays { get; set; } = new();
     public List<string> Weekends { get; set; } = new();
     public List<string> Holidays { get; set; } = new();

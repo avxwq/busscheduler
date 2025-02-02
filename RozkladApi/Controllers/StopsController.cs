@@ -1,6 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RozkladApi.Models;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace RozkladApi.Controllers
 {
@@ -17,14 +20,31 @@ namespace RozkladApi.Controllers
 
         // GET: api/Stops
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Stop>>> GetStops()
+        public async Task<ActionResult<IEnumerable<StopDto>>> GetStops()
         {
-            return await _context.Stops.Include(s => s.Departures).ToListAsync();
+            var stops = await _context.Stops.Include(s => s.Departures).ToListAsync();
+
+            // Mapowanie listy Stop na StopDto
+            var stopsDto = stops.Select(s => new StopDto
+            {
+                Id = s.Id,
+                Name = s.Name,
+                Location = s.Location,
+                Zone = s.Zone,
+                Departures = new DeparturesDto
+                {
+                    Weekdays = s.Departures.Weekdays,
+                    Weekends = s.Departures.Weekends,
+                    Holidays = s.Departures.Holidays
+                }
+            }).ToList();
+
+            return stopsDto;
         }
 
         // GET: api/Stops/{id}
         [HttpGet("{id}")]
-        public async Task<ActionResult<Stop>> GetStop(int id)
+        public async Task<ActionResult<StopDto>> GetStop(int id)
         {
             var stop = await _context.Stops.Include(s => s.Departures).FirstOrDefaultAsync(s => s.Id == id);
 
@@ -33,17 +53,47 @@ namespace RozkladApi.Controllers
                 return NotFound();
             }
 
-            return stop;
+            // Mapowanie Stop na StopDto
+            var stopDto = new StopDto
+            {
+                Id = stop.Id,
+                Name = stop.Name,
+                Location = stop.Location,
+                Zone = stop.Zone,
+                Departures = new DeparturesDto
+                {
+                    Weekdays = stop.Departures.Weekdays,
+                    Weekends = stop.Departures.Weekends,
+                    Holidays = stop.Departures.Holidays
+                }
+            };
+
+            return stopDto;
         }
 
         // PUT: api/Stops/{id}
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutStop(int id, Stop stop)
+        public async Task<IActionResult> PutStop(int id, StopDto stopDto)
         {
-            if (id != stop.Id)
+            if (id != stopDto.Id)
             {
                 return BadRequest();
             }
+
+            // Mapowanie StopDto na Stop
+            var stop = new Stop
+            {
+                Id = stopDto.Id,
+                Name = stopDto.Name,
+                Location = stopDto.Location,
+                Zone = stopDto.Zone,
+                Departures = new Departures
+                {
+                    Weekdays = stopDto.Departures.Weekdays,
+                    Weekends = stopDto.Departures.Weekends,
+                    Holidays = stopDto.Departures.Holidays
+                }
+            };
 
             _context.Entry(stop).State = EntityState.Modified;
 
@@ -68,12 +118,41 @@ namespace RozkladApi.Controllers
 
         // POST: api/Stops
         [HttpPost]
-        public async Task<ActionResult<Stop>> PostStop(Stop stop)
+        public async Task<ActionResult<StopDto>> PostStop(StopDto stopDto)
         {
+            // Mapowanie StopDto na Stop
+            var stop = new Stop
+            {
+                Name = stopDto.Name,
+                Location = stopDto.Location,
+                Zone = stopDto.Zone,
+                Departures = new Departures
+                {
+                    Weekdays = stopDto.Departures.Weekdays,
+                    Weekends = stopDto.Departures.Weekends,
+                    Holidays = stopDto.Departures.Holidays
+                }
+            };
+
             _context.Stops.Add(stop);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetStop", new { id = stop.Id }, stop);
+            // Mapowanie Stop na StopDto
+            var createdStopDto = new StopDto
+            {
+                Id = stop.Id,
+                Name = stop.Name,
+                Location = stop.Location,
+                Zone = stop.Zone,
+                Departures = new DeparturesDto
+                {
+                    Weekdays = stop.Departures.Weekdays,
+                    Weekends = stop.Departures.Weekends,
+                    Holidays = stop.Departures.Holidays
+                }
+            };
+
+            return CreatedAtAction("GetStop", new { id = stop.Id }, createdStopDto);
         }
 
         // DELETE: api/Stops/{id}
