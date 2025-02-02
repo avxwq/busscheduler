@@ -1,6 +1,6 @@
 [
   {
-    "ContainingType": "RoutesController",
+    "ContainingType": "RozkladApi.Controllers.RoutesController",
     "Method": "GetRoutes",
     "RelativePath": "api/Routes",
     "HttpMethod": "GET",
@@ -9,7 +9,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[RozkladApi.Models.Route, RozkladApi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[RozkladApi.Models.RouteDTO, RozkladApi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -20,7 +20,7 @@
     ]
   },
   {
-    "ContainingType": "RoutesController",
+    "ContainingType": "RozkladApi.Controllers.RoutesController",
     "Method": "PostRoute",
     "RelativePath": "api/Routes",
     "HttpMethod": "POST",
@@ -28,14 +28,14 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "route",
-        "Type": "RozkladApi.Models.Route",
+        "Name": "routeDTO",
+        "Type": "RozkladApi.Models.RouteDTO",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "RozkladApi.Models.Route",
+        "Type": "RozkladApi.Models.RouteDTO",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -46,7 +46,7 @@
     ]
   },
   {
-    "ContainingType": "RoutesController",
+    "ContainingType": "RozkladApi.Controllers.RoutesController",
     "Method": "GetRoute",
     "RelativePath": "api/Routes/{id}",
     "HttpMethod": "GET",
@@ -61,7 +61,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "RozkladApi.Models.Route",
+        "Type": "RozkladApi.Models.RouteDTO",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -72,7 +72,7 @@
     ]
   },
   {
-    "ContainingType": "RoutesController",
+    "ContainingType": "RozkladApi.Controllers.RoutesController",
     "Method": "PutRoute",
     "RelativePath": "api/Routes/{id}",
     "HttpMethod": "PUT",
@@ -85,15 +85,15 @@
         "IsRequired": true
       },
       {
-        "Name": "route",
-        "Type": "RozkladApi.Models.Route",
+        "Name": "routeDTO",
+        "Type": "RozkladApi.Models.RouteDTO",
         "IsRequired": true
       }
     ],
     "ReturnTypes": []
   },
   {
-    "ContainingType": "RoutesController",
+    "ContainingType": "RozkladApi.Controllers.RoutesController",
     "Method": "DeleteRoute",
     "RelativePath": "api/Routes/{id}",
     "HttpMethod": "DELETE",

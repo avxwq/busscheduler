@@ -3,11 +3,11 @@ import Stop from "../models/Stop";
 import Route from "../models/Route";
 
 const LinesPage: React.FC = () => {
-  const [stops, setStops] = useState<Stop[]>([]); // Przystanki pobrane z bazy danych
-  const [routes, setRoutes] = useState<Route[]>([]); // Linie pobrane z bazy danych
-  const [editingRoute, setEditingRoute] = useState<Route | null>(null); // Edytowana linia
+  const [stops, setStops] = useState<Stop[]>([]);
+  const [routes, setRoutes] = useState<Route[]>([]);
+  const [editingRoute, setEditingRoute] = useState<Route | null>(null);
   const [newRoute, setNewRoute] = useState<Route>({
-    id: "",
+    id: "0",
     number: "",
     startPoint: "",
     endPoint: "",
@@ -15,7 +15,6 @@ const LinesPage: React.FC = () => {
   });
   const [selectedStops, setSelectedStops] = useState<Stop[]>([]);
 
-  // Pobieranie przystanków i tras z bazy danych
   useEffect(() => {
     const fetchStops = async () => {
       const response = await fetch("http://localhost:5000/api/stops");
@@ -33,60 +32,55 @@ const LinesPage: React.FC = () => {
     fetchRoutes();
   }, []);
 
-  // Zapis nowej linii lub edytowanej linii do bazy danych
-  const saveRoute = async (route: Route) => {
-    const method = route.id ? "PUT" : "POST";
-    const endpoint = route.id ? `http://localhost:5000/api/routes/${route.id}` : "http://localhost:5000/api/routes";
+  const saveRoute = async () => {
+    if (!newRoute.number || !newRoute.startPoint || !newRoute.endPoint || selectedStops.length === 0) {
+      alert("Wypełnij wszystkie pola i dodaj przystanki!");
+      return;
+    }
 
-    const response = await fetch(endpoint, {
-      method,
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(route),
-    });
+    const routeToSave: Route = {
+      ...newRoute,
+      stops: selectedStops, // Wysyłamy pełne obiekty Stop[]
+    };
 
-    if (response.ok) {
-      const savedRoute: Route = await response.json();
-      if (route.id) {
-        // Aktualizacja istniejącej linii
-        setRoutes(routes.map((r) => (r.id === savedRoute.id ? savedRoute : r)));
+    console.log("Wysyłane dane:", JSON.stringify(routeToSave, null, 2)); // 🔍 Debugowanie
+
+    const method = editingRoute ? "PUT" : "POST";
+    const endpoint = editingRoute
+      ? `http://localhost:5000/api/routes/${editingRoute.id}`
+      : "http://localhost:5000/api/routes";
+
+    try {
+      const response = await fetch(endpoint, {
+        method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(routeToSave),
+      });
+
+      const result = await response.json().catch(() => null);
+
+      if (!response.ok) {
+        console.error("Błąd API:", result);
+        alert(`Błąd: ${result?.message || "Nieznany problem"}`);
+        return;
+      }
+
+      if (editingRoute) {
+        setRoutes(routes.map((r) => (r.id === editingRoute.id ? { ...routeToSave, id: editingRoute.id } : r)));
       } else {
-        // Dodanie nowej linii
-        setRoutes([...routes, savedRoute]);
+        setRoutes([...routes, { ...routeToSave, id: result.id }]);
       }
 
       resetForm();
-    } else {
-      console.error("Błąd podczas zapisywania linii");
+    } catch (error) {
+      console.error("Błąd sieci:", error);
     }
   };
 
-  // Usuwanie linii z bazy danych
-  const deleteRoute = async (routeId: string) => {
-    const response = await fetch(`http://localhost:5000/api/routes/${routeId}`, {
-      method: "DELETE",
-    });
-
-    if (response.ok) {
-      setRoutes(routes.filter((route) => route.id !== routeId));
-    } else {
-      console.error("Błąd podczas usuwania linii");
-    }
-  };
-
-  // Przygotowanie formularza do edycji linii
-  const startEditing = (route: Route) => {
-    setEditingRoute(route);
-    setNewRoute(route);
-    setSelectedStops(route.stops || []);
-  };
-
-  // Resetowanie formularza
   const resetForm = () => {
     setEditingRoute(null);
     setNewRoute({
-      id: "",
+      id: 0,
       number: "",
       startPoint: "",
       endPoint: "",
@@ -95,135 +89,97 @@ const LinesPage: React.FC = () => {
     setSelectedStops([]);
   };
 
-  // Obsługa dodawania przystanku do linii
   const handleAddStop = (stop: Stop) => {
     if (!selectedStops.find((s) => s.id === stop.id)) {
       setSelectedStops([...selectedStops, stop]);
     }
   };
 
-  // Obsługa usuwania przystanku z linii
   const handleRemoveStop = (stopId: number) => {
     setSelectedStops(selectedStops.filter((stop) => stop.id !== stopId));
-  };
-
-  // Obsługa zapisu linii
-  const handleSaveRoute = () => {
-    if (
-      newRoute.number &&
-      newRoute.startPoint &&
-      newRoute.endPoint &&
-      selectedStops.length > 0
-    ) {
-      const routeToSave: Route = {
-        ...newRoute,
-        stops: selectedStops,
-      };
-      saveRoute(routeToSave);
-    } else {
-      alert("Wypełnij wszystkie pola i dodaj przystanki!");
-    }
   };
 
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">Zarządzanie Liniami Autobusowymi</h1>
-
-      {/* Formularz dodawania/edycji linii */}
       <div className="mb-6 bg-gray-700 p-4 rounded text-white">
-        <h2 className="text-xl mb-4">
-          {editingRoute ? "Edytuj Linię" : "Dodaj Nową Linię"}
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <input
-            type="text"
-            placeholder="Numer linii"
-            value={newRoute.number}
-            onChange={(e) => setNewRoute({ ...newRoute, number: e.target.value })}
-            className="p-2 rounded bg-gray-800 text-white"
-          />
-          <input
-            type="text"
-            placeholder="Punkt początkowy"
-            value={newRoute.startPoint}
-            onChange={(e) =>
-              setNewRoute({ ...newRoute, startPoint: e.target.value })
-            }
-            className="p-2 rounded bg-gray-800 text-white"
-          />
-          <input
-            type="text"
-            placeholder="Punkt końcowy"
-            value={newRoute.endPoint}
-            onChange={(e) =>
-              setNewRoute({ ...newRoute, endPoint: e.target.value })
-            }
-            className="p-2 rounded bg-gray-800 text-white"
-          />
-        </div>
+        <h2 className="text-xl mb-4">{editingRoute ? "Edytuj Linię" : "Dodaj Nową Linię"}</h2>
+        <input
+          type="text"
+          placeholder="Numer linii"
+          value={newRoute.number}
+          onChange={(e) => setNewRoute({ ...newRoute, number: e.target.value })}
+          className="p-2 rounded bg-gray-800 text-white w-full"
+        />
+        <input
+          type="text"
+          placeholder="Punkt początkowy"
+          value={newRoute.startPoint}
+          onChange={(e) => setNewRoute({ ...newRoute, startPoint: e.target.value })}
+          className="p-2 rounded bg-gray-800 text-white w-full mt-2"
+        />
+        <input
+          type="text"
+          placeholder="Punkt końcowy"
+          value={newRoute.endPoint}
+          onChange={(e) => setNewRoute({ ...newRoute, endPoint: e.target.value })}
+          className="p-2 rounded bg-gray-800 text-white w-full mt-2"
+        />
 
-        {/* Lista wybranych przystanków */}
+        <h3 className="text-lg mt-4">Dostępne Przystanki:</h3>
+        <ul className="list-disc list-inside">
+          {stops.map((stop) => (
+            <li key={stop.id} className="flex justify-between">
+              {stop.name}
+              <button onClick={() => handleAddStop(stop)} className="text-green-500 ml-4">
+                Dodaj
+              </button>
+            </li>
+          ))}
+        </ul>
+
         <h3 className="text-lg mt-4">Wybrane Przystanki:</h3>
         <ul className="list-disc list-inside">
           {selectedStops.map((stop) => (
             <li key={stop.id} className="flex justify-between">
               {stop.name}
-              <button
-                onClick={() => handleRemoveStop(stop.id)}
-                className="text-red-500 ml-4"
-              >
+              <button onClick={() => handleRemoveStop(stop.id)} className="text-red-500 ml-4">
                 Usuń
               </button>
             </li>
           ))}
         </ul>
 
-        <div className="flex gap-4 mt-4">
-          <button
-            onClick={handleSaveRoute}
-            className="bg-green-500 text-white px-4 py-2 rounded"
-          >
-            {editingRoute ? "Zapisz Zmiany" : "Zapisz Linię"}
-          </button>
-          {editingRoute && (
-            <button
-              onClick={resetForm}
-              className="bg-gray-500 text-white px-4 py-2 rounded"
-            >
-              Anuluj
-            </button>
-          )}
-        </div>
+        <button onClick={saveRoute} className="bg-green-500 text-white px-4 py-2 rounded mt-4">
+          {editingRoute ? "Zapisz Zmiany" : "Zapisz Linię"}
+        </button>
       </div>
 
-      {/* Lista tras */}
-      <h2 className="text-xl mb-4">Lista Linii</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {routes.map((route) => (
-          <div key={route.id} className="bg-gray-800 p-4 rounded shadow">
-            <p className="font-bold">Numer: {route.number}</p>
-            <p>Początek: {route.startPoint}</p>
-            <p>Koniec: {route.endPoint}</p>
-            <p>Liczba przystanków: {route.stops?.length || 0}</p>
-            <div className="flex gap-2 mt-2">
+      {/* Wyświetlanie listy zapisanych linii */}
+      <div className="mt-8 bg-gray-700 p-4 rounded text-white">
+        <h2 className="text-xl mb-4">Lista Linii</h2>
+        <ul className="list-disc list-inside">
+          {routes.map((route) => (
+            <li key={route.id} className="flex justify-between">
+              <span>
+                {route.number} - {route.startPoint} → {route.endPoint}
+              </span>
               <button
-                onClick={() => startEditing(route)}
-                className="bg-blue-500 text-white px-4 py-2 rounded"
+                onClick={() => {
+                  setEditingRoute(route);
+                  setNewRoute({ ...route, stops: route.stops });
+                }}
+                className="text-yellow-500 ml-4"
               >
                 Edytuj
               </button>
-              <button
-                onClick={() => deleteRoute(route.id)}
-                className="bg-red-500 text-white px-4 py-2 rounded"
-              >
-                Usuń
-              </button>
-            </div>
-          </div>
-        ))}
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   );
 };
 
 export default LinesPage;
+
