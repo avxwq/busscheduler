@@ -6,28 +6,48 @@ export default function SchedulePage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [scheduleDetails, setScheduleDetails] = useState<any>(null);
+  const [loading, setLoading] = useState<boolean>(true);  // To show loading state
+  const [error, setError] = useState<string | null>(null);  // To handle errors
 
-  // Mock dane - później zastąpić wywołaniem API
+  // Fetch schedule details from API
   useEffect(() => {
-    const mockData = {
-      id: id || '',
-      number: '101',
-      startPoint: 'Centrum',
-      endPoint: 'Dworzec',
-      stops: [
-        { id: 1, name: 'Centrum', location: 'ul. Główna 1', zone: 'A' },
-        { id: 2, name: 'Dworzec', location: 'ul. Kolejowa 5', zone: 'A' },
-        { id: 3, name: 'Parkowa', location: 'ul. Parkowa 12', zone: 'A' },
-        { id: 4, name: 'Szpital', location: 'ul. Zdrowia 8', zone: 'A' },
-        { id: 5, name: 'Uczelnia', location: 'ul. Akademicka 3', zone: 'A' },
-      ],
+    if (!id) return; // Prevent API call if id is not available
+
+    const fetchScheduleDetails = async () => {
+      setLoading(true);
+      setError(null);
+
+      try {
+        // Replace with your actual API endpoint
+        const response = await fetch(`http://localhost:5000/api/routes/${id}`);
+        
+        if (!response.ok) {
+          throw new Error('Failed to fetch schedule details');
+        }
+
+        const data = await response.json();
+        setScheduleDetails(data); // Set API data
+      } catch (err: any) {
+        setError(err.message); // Set error message
+      } finally {
+        setLoading(false);
+      }
     };
-    setScheduleDetails(mockData);
+
+    fetchScheduleDetails();
   }, [id]);
 
   const handleStopClick = (stopId: number) => {
     navigate(`/stops/${stopId}`);
   };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
   return (
     <div className="max-w-[1920px] mx-auto p-4">
@@ -41,7 +61,7 @@ export default function SchedulePage() {
             </tr>
           </thead>
           <tbody>
-            {scheduleDetails?.stops.map((stop: Stop) => (
+            {scheduleDetails?.stops?.map((stop: Stop) => (
               <tr
                 key={stop.id}
                 onClick={() => handleStopClick(stop.id)}

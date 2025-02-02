@@ -16,6 +16,7 @@ export default function HomePage() {
           throw new Error('Nie udało się pobrać tras z serwera.');
         }
         const data: Route[] = await response.json(); // Oczekiwanie na dane JSON
+        console.log(data);
         setRoutes(data);
         setIsLoading(false);
       } catch (err: any) {

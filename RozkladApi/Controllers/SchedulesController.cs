@@ -1,6 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RozkladApi.Models;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace RozkladApi.Controllers
 {
@@ -17,20 +20,30 @@ namespace RozkladApi.Controllers
 
         // GET: api/Schedules
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Schedule>>> GetSchedules()
+        public async Task<ActionResult<IEnumerable<ScheduleDTO>>> GetSchedules()
         {
-            // Include related BusLine and Stop for each Schedule
-            return await _context.Schedules
-                .Include(s => s.BusLine) // Get the related BusLine
-                .Include(s => s.Stop)    // Get the related Stop
+            var schedules = await _context.Schedules
+                .Include(s => s.BusLine)
+                .Include(s => s.Stop)
                 .ToListAsync();
+
+            // Map entities to DTOs
+            var scheduleDTOs = schedules.Select(s => new ScheduleDTO
+            {
+                LineId = s.LineId,
+                StopId = s.StopId,
+                Weekdays = s.Weekdays,
+                Saturdays = s.Saturdays,
+                Sundays = s.Sundays
+            }).ToList();
+
+            return Ok(scheduleDTOs);
         }
 
         // GET: api/Schedules/{id}
         [HttpGet("{id}")]
-        public async Task<ActionResult<Schedule>> GetSchedule(int id)
+        public async Task<ActionResult<ScheduleDTO>> GetSchedule(int id)
         {
-            // Retrieve the schedule with related BusLine and Stop
             var schedule = await _context.Schedules
                 .Include(s => s.BusLine)
                 .Include(s => s.Stop)
@@ -41,48 +54,72 @@ namespace RozkladApi.Controllers
                 return NotFound();
             }
 
-            return schedule;
+            var scheduleDTO = new ScheduleDTO
+            {
+                LineId = schedule.LineId,
+                StopId = schedule.StopId,
+                Weekdays = schedule.Weekdays,
+                Saturdays = schedule.Saturdays,
+                Sundays = schedule.Sundays
+            };
+
+            return Ok(scheduleDTO);
         }
 
         // PUT: api/Schedules/{id}
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutSchedule(int id, Schedule schedule)
+        public async Task<IActionResult> PutSchedule(int id, ScheduleDTO scheduleDTO)
         {
-            if (id != schedule.Id)
+            if (id != scheduleDTO.LineId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(schedule).State = EntityState.Modified;
+            var schedule = await _context.Schedules.FindAsync(id);
+            if (schedule == null)
+            {
+                return NotFound();
+            }
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ScheduleExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            // Update the schedule using the DTO
+            schedule.Weekdays = scheduleDTO.Weekdays;
+            schedule.Saturdays = scheduleDTO.Saturdays;
+            schedule.Sundays = scheduleDTO.Sundays;
+
+            _context.Entry(schedule).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
         // POST: api/Schedules
         [HttpPost]
-        public async Task<ActionResult<Schedule>> PostSchedule(Schedule schedule)
+        public async Task<ActionResult<ScheduleDTO>> PostSchedule(ScheduleDTO scheduleDTO)
         {
-            // Add the new schedule to the context
+            // Create the new schedule based on DTO
+            var schedule = new Schedule
+            {
+                LineId = scheduleDTO.LineId,
+                StopId = scheduleDTO.StopId,
+                Weekdays = scheduleDTO.Weekdays,
+                Saturdays = scheduleDTO.Saturdays,
+                Sundays = scheduleDTO.Sundays
+            };
+
             _context.Schedules.Add(schedule);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetSchedule", new { id = schedule.Id }, schedule);
+            // Map the created schedule to DTO and return
+            var createdScheduleDTO = new ScheduleDTO
+            {
+                LineId = schedule.LineId,
+                StopId = schedule.StopId,
+                Weekdays = schedule.Weekdays,
+                Saturdays = schedule.Saturdays,
+                Sundays = schedule.Sundays
+            };
+
+            return CreatedAtAction("GetSchedule", new { id = schedule.Id }, createdScheduleDTO);
         }
 
         // DELETE: api/Schedules/{id}

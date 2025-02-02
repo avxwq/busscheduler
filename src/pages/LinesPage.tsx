@@ -80,7 +80,7 @@ const LinesPage: React.FC = () => {
   const resetForm = () => {
     setEditingRoute(null);
     setNewRoute({
-      id: 0,
+      id: "0",
       number: "",
       startPoint: "",
       endPoint: "",

@@ -118,7 +118,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[RozkladApi.Models.Schedule, RozkladApi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[ScheduleDTO, RozkladApi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -137,14 +137,14 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "schedule",
-        "Type": "RozkladApi.Models.Schedule",
+        "Name": "scheduleDTO",
+        "Type": "ScheduleDTO",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "RozkladApi.Models.Schedule",
+        "Type": "ScheduleDTO",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -170,7 +170,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "RozkladApi.Models.Schedule",
+        "Type": "ScheduleDTO",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -194,8 +194,8 @@
         "IsRequired": true
       },
       {
-        "Name": "schedule",
-        "Type": "RozkladApi.Models.Schedule",
+        "Name": "scheduleDTO",
+        "Type": "ScheduleDTO",
         "IsRequired": true
       }
     ],
