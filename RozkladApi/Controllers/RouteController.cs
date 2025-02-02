@@ -32,6 +32,7 @@ namespace RozkladApi.Controllers
                     EndPoint = r.EndPoint,
                     Stops = r.Stops.Select(s => new StopDto
                     {
+                        Id = s.Id,
                         Name = s.Name,
                         Location = s.Location,
                         Zone = s.Zone,
