@@ -26,7 +26,7 @@ namespace RozkladApi.Controllers
                 .Include(r => r.Stops)  // Include Stops for each Route
                 .Select(r => new RouteDTO
                 {
-                    Id = r.Id,
+                    Id = r.Id.ToString(),
                     Number = r.Number,
                     StartPoint = r.StartPoint,
                     EndPoint = r.EndPoint,
@@ -54,10 +54,10 @@ namespace RozkladApi.Controllers
         {
             var route = await _context.Routes
                 .Include(r => r.Stops)
-                .Where(r => r.Id == id)
+                .Where(r => r.Id.ToString() == id)
                 .Select(r => new RouteDTO
                 {
-                    Id = r.Id,
+                    Id = r.Id.ToString(),
                     Number = r.Number,
                     StartPoint = r.StartPoint,
                     EndPoint = r.EndPoint,
@@ -88,15 +88,16 @@ namespace RozkladApi.Controllers
         [HttpPost]
         public async Task<ActionResult<RouteDTO>> PostRoute(RouteDTO routeDTO)
         {
+            Random rnd = new Random();
             // Map the RouteDTO to the Route entity
             var route = new Models.Route
             {
-                Id = routeDTO.Id,
                 Number = routeDTO.Number,
                 StartPoint = routeDTO.StartPoint,
                 EndPoint = routeDTO.EndPoint,
                 Stops = routeDTO.Stops.Select(s => new Stop
                 {
+                    Id = rnd.Next(20,5000),
                     Name = s.Name,
                     Location = s.Location,
                     Zone = s.Zone,
@@ -115,7 +116,7 @@ namespace RozkladApi.Controllers
             // Return the created RouteDTO with full stop details
             var createdRouteDTO = new RouteDTO
             {
-                Id = route.Id,
+                Id = route.Id.ToString(),
                 Number = route.Number,
                 StartPoint = route.StartPoint,
                 EndPoint = route.EndPoint,
