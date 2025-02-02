@@ -6,37 +6,24 @@ const StopDetailsPage: React.FC = () => {
   const [stopDetails, setStopDetails] = useState<any>(null);
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
 
-  // Mock dane - później zastąpić wywołaniem API
+  // Fetch stop details from the API
   useEffect(() => {
-    const mockStopDetails = {
-      id,
-      name: `Przystanek ${id}`,
-      departures: {
-        weekdays: [
-          "06:15", "06:45", "07:15", "07:45", "08:15", "08:45", 
-          "09:08", "09:17", "09:31", "09:40", "09:48", "10:15", "10:30", "11:00", "11:15", 
-          "12:00", "12:30", "13:00", "13:45", "14:30",
-          "15:08", "15:17", "15:31", "15:40", "15:48", 
-          "16:00", "16:45", "17:30", "18:00", "18:30", "19:15", 
-          "20:00", "20:30", "21:00", "21:30", "22:15", "23:00"
-        ],
-        weekends: [
-          "07:30", "08:15", "08:45", "09:30", "10:15", "10:45", 
-          "11:15", "11:45", "12:30", "13:00", "13:45", "14:30", 
-          "15:15", "16:00", "16:45", "17:30", "18:15", "18:45", 
-          "19:30", "20:15", "21:00", "21:45", "22:30", "23:15"
-        ],
-        holidays: [
-          "08:00", "08:30", "09:00", "09:45", "10:10", "10:30", 
-          "11:15", "11:45", "12:20", "12:50", "13:30", "14:10", 
-          "14:50", "15:30", "16:15", "16:50", "17:30", "18:00", 
-          "18:45", "19:20", "20:00", "20:45", "21:30", "22:15"
-        ]
-      },     
+    const fetchStopDetails = async () => {
+      try {
+        const response = await fetch(`http://localhost:5000/api/stops/${id}`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch stop details');
+        }
+        const data = await response.json();
+        setStopDetails(data);
+      } catch (error) {
+        console.error("Error fetching stop details:", error);
+      }
     };
-    setStopDetails(mockStopDetails);
 
-    // Aktualizowanie aktualnego czasu co sekundę
+    fetchStopDetails();
+
+    // Update the current time every second
     const interval = setInterval(() => {
       setCurrentDateTime(new Date());
     }, 1000);
@@ -44,18 +31,18 @@ const StopDetailsPage: React.FC = () => {
     return () => clearInterval(interval);
   }, [id]);
 
-  // Funkcja pomocnicza do porównania godzin
+  // Function to check if the departure time is the closest to the current time
   const isClosestTime = (time: string) => {
     if (!currentDateTime) return false;
 
     const [hour, minute] = time.split(":").map(Number);
     const now = new Date(currentDateTime);
 
-    // Czas odjazdu w milisekundach
+    // Departure time in milliseconds
     const departureTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hour, minute).getTime();
     const currentTime = now.getTime();
 
-    // Sprawdzenie, czy czas odjazdu jest najbliższy w ciągu najbliższej godziny
+    // Check if the departure time is the closest in the next hour
     return departureTime > currentTime && departureTime - currentTime <= 2400000;
   };
 
@@ -77,7 +64,7 @@ const StopDetailsPage: React.FC = () => {
             </tr>
           </thead>
           <tbody>
-          {Array.from({ length: 18 }, (_, i) => `${i + 6}:00`).map((hour) => (
+            {Array.from({ length: 18 }, (_, i) => `${i + 6}:00`).map((hour) => (
               <tr key={hour} className="bg-gray-700 text-white">
                 <td className="px-6 py-4">{hour}</td>
                 {["weekdays", "weekends", "holidays"].map((type) => (
@@ -85,9 +72,9 @@ const StopDetailsPage: React.FC = () => {
                     <div className="flex flex-row items-center gap-2">
                       {stopDetails.departures[type]
                         .filter((time: string) => {
-                          const departureHour = parseInt(time.split(":")[0], 10); // Parsowanie godziny
-                          const currentHour = parseInt(hour.split(":")[0], 10); // Parsowanie godziny w tabeli
-                          return departureHour === currentHour; // Porównanie godzin
+                          const departureHour = parseInt(time.split(":")[0], 10); // Parse hour
+                          const currentHour = parseInt(hour.split(":")[0], 10); // Hour in the table
+                          return departureHour === currentHour; // Compare hours
                         })
                         .map((time: string) => (
                           <div
@@ -96,7 +83,7 @@ const StopDetailsPage: React.FC = () => {
                               isClosestTime(time) ? "bg-green-500 text-white" : "bg-gray-500 text-white"
                             }`}
                           >
-                            {time.split(":")[1]} {/* Wyświetlanie minut */}
+                            {time.split(":")[1]} {/* Display minutes */}
                           </div>
                         ))}
                     </div>

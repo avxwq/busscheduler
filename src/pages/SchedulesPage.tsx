@@ -18,7 +18,6 @@ export default function SchedulePage() {
       setError(null);
 
       try {
-        // Replace with your actual API endpoint
         const response = await fetch(`http://localhost:5000/api/routes/${id}`);
         
         if (!response.ok) {
@@ -26,6 +25,7 @@ export default function SchedulePage() {
         }
 
         const data = await response.json();
+        console.log(data);
         setScheduleDetails(data); // Set API data
       } catch (err: any) {
         setError(err.message); // Set error message
