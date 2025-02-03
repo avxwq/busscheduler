@@ -14,6 +14,7 @@ const LinesPage: React.FC = () => {
     stops: [],
   });
   const [selectedStops, setSelectedStops] = useState<Stop[]>([]);
+  const [searchTerm, setSearchTerm] = useState<string>("");
 
   useEffect(() => {
     const fetchStops = async () => {
@@ -99,6 +100,11 @@ const LinesPage: React.FC = () => {
     setSelectedStops(selectedStops.filter((stop) => stop.id !== stopId));
   };
 
+  // Filtrowanie przystanków na podstawie frazy wyszukiwania
+  const filteredStops = stops.filter((stop) =>
+    stop.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">Zarządzanie Liniami Autobusowymi</h1>
@@ -127,8 +133,15 @@ const LinesPage: React.FC = () => {
         />
 
         <h3 className="text-lg mt-4">Dostępne Przystanki:</h3>
+        <input
+          type="text"
+          placeholder="Wyszukaj przystanki..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="p-2 rounded bg-gray-800 text-white mb-4 w-full"
+        />
         <ul className="list-disc list-inside">
-          {stops.map((stop) => (
+          {filteredStops.map((stop) => (
             <li key={stop.id} className="flex justify-between">
               {stop.name}
               <button onClick={() => handleAddStop(stop)} className="text-green-500 ml-4">
@@ -182,4 +195,3 @@ const LinesPage: React.FC = () => {
 };
 
 export default LinesPage;
-

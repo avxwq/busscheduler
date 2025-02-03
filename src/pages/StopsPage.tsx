@@ -3,6 +3,8 @@ import Stop from "../models/Stop"; // Import interfejsu
 
 const StopsPage: React.FC = () => {
   const [stops, setStops] = useState<Stop[]>([]); // Stan przystanków
+  const [filteredStops, setFilteredStops] = useState<Stop[]>([]); // Przechowywanie przefiltrowanych przystanków
+  const [searchQuery, setSearchQuery] = useState<string>(""); // Stan do wyszukiwania
   const [formData, setFormData] = useState<Stop>({
     id: 0,
     name: "",
@@ -27,6 +29,7 @@ const StopsPage: React.FC = () => {
         }
         const data = await response.json();
         setStops(data);
+        setFilteredStops(data); // Na początku wszystkie przystanki są dostępne
       } catch (error) {
         console.error("Błąd podczas pobierania przystanków:", error);
       }
@@ -34,6 +37,20 @@ const StopsPage: React.FC = () => {
 
     fetchStops();
   }, []);
+
+  useEffect(() => {
+    // Filtrowanie przystanków na podstawie zapytania wyszukiwania
+    if (searchQuery) {
+      setFilteredStops(
+        stops.filter((stop) =>
+          stop.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          stop.location.toLowerCase().includes(searchQuery.toLowerCase())
+        )
+      );
+    } else {
+      setFilteredStops(stops); // Jeśli brak zapytania, wyświetl wszystkie przystanki
+    }
+  }, [searchQuery, stops]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -90,8 +107,8 @@ const StopsPage: React.FC = () => {
       }
     };
 
-    validateDepartures(formData.departures.weekdays, "weekdays");
-    validateDepartures(formData.departures.weekends, "weekends");
+    validateDepartures(formData.departures.weekdays, "dni robocze");
+    validateDepartures(formData.departures.weekends, "weekend");
     validateDepartures(formData.departures.holidays, "holidays");
 
     setErrors(validationErrors);
@@ -100,7 +117,7 @@ const StopsPage: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!validateForm()) {
+    if (validateForm()) {
       try {
         if (formData.id === 0) {
           console.log("hello");
@@ -203,6 +220,13 @@ const StopsPage: React.FC = () => {
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-2xl font-bold">Zarządzanie Przystankami</h1>
         <div className="flex space-x-2">
+          <input
+            type="text"
+            placeholder="Wyszukaj przystanek"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="p-2 rounded bg-gray-800 text-white"
+          />
           <button
             onClick={sortByName}
             className="bg-blue-500 text-white px-4 py-2 rounded"
@@ -223,7 +247,7 @@ const StopsPage: React.FC = () => {
           </button>
         </div>
       </div>
-
+          
       {isFormVisible && (
         <form onSubmit={handleSubmit} className="mb-6 bg-gray-700 p-4 rounded">
           <h2 className="text-xl mb-2">{formData.id === 0 ? "Dodaj Nowy Przystanek" : "Edytuj Przystanek"}</h2>
@@ -316,7 +340,7 @@ const StopsPage: React.FC = () => {
 
       <h2 className="text-xl mb-2">Lista Przystanków</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-      {stops.map((stop) => (
+        {filteredStops.map((stop) => (
           <div key={stop.id} className="bg-gray-800 p-4 rounded shadow">
             <p className="font-bold">{stop.name}</p>
             <p>Lokalizacja: {stop.location}</p>
@@ -324,20 +348,18 @@ const StopsPage: React.FC = () => {
             <p>Dni robocze: {stop.departures.weekdays.join(", ")}</p>
             <p>Weekend: {stop.departures.weekends.join(", ")}</p>
             <p>Święta: {stop.departures.holidays.join(", ")}</p>
-            <div className="flex space-x-2 mt-2">
-              <button
-                onClick={() => handleEdit(stop.id)}
-                className="bg-yellow-500 text-white px-4 py-2 rounded"
-              >
-                Edytuj
-              </button>
-              <button
-                onClick={() => handleDelete(stop.id)}
-                className="bg-red-500 text-white px-4 py-2 rounded"
-              >
-                Usuń
-              </button>
-            </div>
+            <button
+              onClick={() => handleEdit(stop.id)}
+              className="bg-yellow-500 text-white px-4 py-2 rounded mt-2"
+            >
+              Edytuj
+            </button>
+            <button
+              onClick={() => handleDelete(stop.id)}
+              className="bg-red-500 text-white px-4 py-2 rounded mt-2"
+            >
+              Usuń
+            </button>
           </div>
         ))}
       </div>
